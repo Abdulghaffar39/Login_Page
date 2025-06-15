@@ -7,7 +7,7 @@ for(let i = 1; i < 6; i++){
     let get_Emails = prompt(`Enter Your ${i} Email`)
     let get_Passwords = prompt(`Enter Your ${i} Email Password`)
 
-    if(!get_Emails || !get_Passwords){
+    if(get_Emails == '' || get_Passwords == ''){
 
         alert("Please Enter ✉️Email or 🔑Passwords");
         return
