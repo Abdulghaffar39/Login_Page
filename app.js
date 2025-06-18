@@ -1,25 +1,32 @@
+alert("Store Emails & Passwords");
 
-let emails = [];
-let passwords = [];
-
-for(let i = 1; i < 6; i++){
-    
-    let get_Emails = prompt(`Enter Your ${i} Email`)
-    let get_Passwords = prompt(`Enter Your ${i} Email Password`)
-
-    if(get_Emails == '' || get_Passwords == ''){
-
-        alert("Please Enter ✉️Email or 🔑Passwords");
-        return
-    }
+    let emails = [];
+    let passwords = [];
 
     
-    emails.push(get_Emails)
-    passwords.push(get_Passwords)
+    isfind = false;
     
-    console.log(emails);
-    console.log(passwords);
-};
+    for(let i = 1; i < 6; i++){
+        
+        let get_Emails = prompt(`Enter Your ${i} Email`)
+        let get_Passwords = prompt(`Enter Your ${i} Email Password`)
+
+
+        emails.push(get_Emails)
+        passwords.push(get_Passwords)
+
+        console.log(emails);
+        console.log(passwords);
+
+        isfind = true;
+
+}
+
+if(isfind === false){
+
+    console.log('Your Email is Invalid');
+    
+}
 
 
 let find_Email = prompt('Check Your Email');
@@ -35,7 +42,6 @@ for(let j = 0; j < emails.length; j++){
         
     };
     
-
 };
 
 
