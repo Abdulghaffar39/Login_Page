@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body onsubmit="form(event)" onload="viewBlogs()">
+
+    <div class="sider" id="sider" onclick="sider()"></div>
+
+
+    <div class="main" id="main">
+
+
+        <div class="parent_1">
+
+            <div class="child_1" id="Log Out" onclick="close_sider()"><i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+
+        </div>
+
+        <div class="parent_2">
+
+            <div class="child_1" id="profile" onclick="check_profile()"></div>
+
+            <div class="child_2" id="Log Out" onclick="logout()">
+                <button>Log Out</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="main_2" id="main_2">
+
+        <div class="parent_1">
+            <img src="./Assets/img/58e80f041ec1f7fa0b349e8236066416-removebg-preview.png" width="100%" alt="log">
+        </div>
+
+
+        <div class="parent_2" onclick="create_blog()"><button>Create Blog</button></div>
+
+    </div>
+
+    <div class="Container_small_box">
+
+        <div class="small_box">
+
+            <img src="./Assets/img/58e80f041ec1f7fa0b349e8236066416-removebg-preview.png" width="100%" alt="">
+
+            <div class="parent">
+
+                <div class="child" id="child_1">
+
+                    <h1>Title</h1>
+                    <p>leamon</p>
+
+                </div>
+
+                <div class="child" id="child_2">
+
+                    <h1>Author</h1>
+                    <p>Abdul Ghaffar</p>
+
+                </div>
+
+                <div class="child_3" id="child_3">
+
+                    <h1>Description</h1>
+                    <p>Lorem ipsum dolor, sit amet consecteturlis?</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+    </div>
+
+
+
+    <script src="app.js"></script>
+    <script src="https://kit.fontawesome.com/1de706ad7b.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

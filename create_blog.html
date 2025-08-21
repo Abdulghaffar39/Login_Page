@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+
+    <link rel="stylesheet" href="home.css">
+
+</head>
+<body onload="blog_value()">
+
+    <div class="main_2" id="main_2">
+
+        <div class="parent_1">
+            <img src="./Assets/img/58e80f041ec1f7fa0b349e8236066416-removebg-preview.png" width="100%" alt="log">
+        </div>
+
+
+        <div class="parent_2" onclick="back_home()"><button id="back">Back</button></div>
+
+
+    </div>
+    
+
+    <h1 class="Blog">Blog</h1>
+
+
+    <form class="box_1" onsubmit="form(event)">
+
+        <div class="parent" id="parent_1">
+
+            <label for="title">Title</label>
+            <input type="text" placeholder="Enter title" id="title">
+
+        </div>
+
+        <div class="parent" id="parent_2">
+
+            <label for="author">Author</label>
+            <input type="text" placeholder="Enter author name" id="author">
+
+        </div>
+
+        <div class="parent"  id="parent_3">
+
+            <label for="description">Description</label>
+            <textarea name="description" placeholder="Write Description" rows="7" id="description"></textarea>
+
+        </div>
+
+        <div  onclick="submit()">
+            <input type="submit" id="submit">
+        </div>
+
+
+    </form>
+
+
+     <script src="app.js"></script>
+    <script src="https://kit.fontawesome.com/1de706ad7b.js" crossorigin="anonymous"></script>
+</body>
+</html>
