@@ -1,105 +1,153 @@
-const signup = () => {
-
-    let name = document.getElementById('name').value;
-    let age = document.getElementById('age').value;
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
+// const axios = 'axios/dist/browser/axios.cjs';
 
 
+async function signup() {
 
-    if (name == '' || age == '' || email == '' || password == '') {
-        alert('Please fill page');
-        return
-    }
-
-    if (email.indexOf('@gmail.com') === -1) {
-        alert('Please enter correct Gmail address!');
-        return;
-    }
-
-    let obj = JSON.parse(window.localStorage.getItem('data')) || [];
+    try {
 
 
+        let userName = document.getElementById('name').value;
+        let userAge = document.getElementById('age').value;
+        let userEmail = document.getElementById('email').value;
+        let userPassword = document.getElementById('password').value;
 
-    let isFound = false;
-
-    for (let i = 0; i < obj.length; i++) {
-
-
-        if (obj[i].email === email) {
-
-            alert('This Email Account is already exists!');
-
-            isFound = true;
-            return;
-        }
-
-
-    }
-
-    if (!isFound) {
-
-        alert('Account created successfuly');
+        const res = axios.post('http://localhost:3000/api/signup', {
+            
+            userName,
+            userAge,
+            userEmail,
+            userPassword
+        })
         window.location.href = 'signup.html';
+        console.log(res);
+
+        // .then((res) => {
+
+        // }
+
+    } catch (err) {
+
+        console.log(err);
 
     }
 
 
-    obj.push({
-        name,
-        age,
-        email,
-        password,
-    });
+
+    // if (userName == '' || userAge == '' || userEmail == '' || userPassword == '') {
+    //     alert('Please fill page');
+    //     return
+    // }
+
+    // if (userEmail.indexOf('@gmail.com') === -1) {
+    //     alert('Please enter correct Gmail address!');
+    //     return;
+    // }
+
+    // let obj = JSON.parse(window.localStorage.getItem('data')) || [];
 
 
-    window.localStorage.setItem('data', JSON.stringify(obj));
+
+    // let isFound = false;
+
+    // for (let i = 0; i < obj.length; i++) {
+
+
+    //     if (obj[i].userEmail === userEmail) {
+
+    //         alert('This Email Account is already exists!');
+
+    //         isFound = true;
+    //         return;
+    //     }
+
+
+    // }
+
+    // if (!isFound) {
+
+    //     alert('Account created successfuly');
+
+    // }
+
+
+    // obj.push({
+    //     userName,
+    //     userAge,
+    //     userEmail,
+    //     userPassword,
+    // });
+
+
+    // window.localStorage.setItem('data', JSON.stringify(obj));
 
 };
 
 
-const signin = () => {
+async function login() {
 
-    let signin_email = document.getElementById('signin_email').value;
-    let signin_password = document.getElementById('signin_password').value;
+    try {
 
 
-    if (signin_email == '' && signin_password == '') {
+        let loginEmail = document.getElementById('signin_email').value;
+        let loginPass = document.getElementById('signin_password').value;
 
-        alert('Please enter value')
-        return;
+
+        const res = axios.post('http://localhost:3000/api/login', {
+
+            loginEmail,
+            loginPass
+        })
+
+        
+        console.log(res);
+        window.location.href = 'home.html';
+        
+
+
+        // if (getdata[i].email === signin_email && getdata[i].password === signin_password) {
+
+        //     alert('Successfuly');
+        //     window.localStorage.setItem('currentUser', JSON.stringify({ validUser: getdata[i] }))
+        //     isFound = true;
+        // }
+        
+        // .then((res) => {
+            
+            // }
+
+    } catch (err) {
+
+        console.log(err);
     }
 
-
-    var getdata = window.localStorage.getItem('data');
-    getdata = JSON.parse(getdata);
+}
 
 
-    let isFound = false;
+// if (signin_email == '' && signin_password == '') {
+
+//     alert('Please enter value')
+//     return;
+// }
 
 
-    for (let i = 0; i < getdata.length; i++) {
+// var getdata = window.localStorage.getItem('data');
+// getdata = JSON.parse(getdata);
 
 
-        if (getdata[i].email === signin_email && getdata[i].password === signin_password) {
-
-            alert('Successfuly');
-            window.localStorage.setItem('currentUser', JSON.stringify({ validUser: getdata[i] }))
-            isFound = true;
-            window.location.href = 'home.html';
-            break;
-        }
-
-    }
-
-    if (isFound === false) {
-
-        alert("Incorrect Email or Password");
-        return;
-    }
+// let isFound = false;
 
 
-};
+// for (let i = 0; i < getdata.length; i++) {
+
+
+// if (isFound === false) {
+
+//     alert("Incorrect Email or Password");
+//     return;
+// }
+
+
+// };
 
 
 function viewBlogs() {

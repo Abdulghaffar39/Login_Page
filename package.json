@@ -1,0 +1,28 @@
+{
+  "name": "login_page",
+  "version": "1.0.0",
+  "description": "connect front-end with back-end",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abdulghaffar39/Login_Page.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abdulghaffar39/Login_Page/issues"
+  },
+  "homepage": "https://github.com/Abdulghaffar39/Login_Page#readme",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1",
+    "path": "^0.12.7"
+  }
+}
