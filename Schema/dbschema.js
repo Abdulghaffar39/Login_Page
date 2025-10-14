@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-let schemaClass = new mongoose.Schema({
+let signupSchema = new mongoose.Schema({
 
     userName: {
 
@@ -28,10 +28,10 @@ let schemaClass = new mongoose.Schema({
 })
 
 
-let Schema = mongoose.model('Users', schemaClass);
+let userSchema = mongoose.model('Users', signupSchema);
 
 
 module.exports = {
 
-    Schema
+    userSchema
 }

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
-const { Schema } = require('../Schema/dbschema')
+const { userSchema } = require('../Schema/dbschema')
 
 
-
-mongoose.connect("mongodb+srv://Abdulghaffar:2C0qs1bxw0lbGDxC@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://Abdulghaffar:ruBadxNt6ukkEZWY@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
 
     useNewUrlParser: true,
     useUnifiedTopology: true,
+
 }).then(() => {
 
     console.log('Connected to MongoDB');
@@ -29,10 +29,10 @@ async function signup(req, res, next) {
     try {
         const { userName, userAge, userEmail, userPassword } = req.body;
 
-        const user = await Schema.findOne({ userEmail })
-        console.log(user, 'line number 41');
+        const Users = await userSchema.findOne({ userEmail })
+        console.log(Users, 'line number 41');
 
-        if (user) {
+        if (Users) {
             return res.send({
                 status: 505,
                 message: "user already exists",
@@ -40,7 +40,7 @@ async function signup(req, res, next) {
         }
 
 
-        const newUser = new Schema({ userName, userAge, userEmail, userPassword });
+        const newUser = new userSchema({ userName, userAge, userEmail, userPassword });
         newUser.save();
 
         res.send({
@@ -63,55 +63,31 @@ async function signup(req, res, next) {
 }
 // --------------------------------------------------------------------------------------
 
-async function userDetails(req, res, next) {
-    try {
-
-        const users = await Schema.find()
-        console.log(users, 'line number 41');
-        res.send({
-            message: "users recieved",
-            users
-        })
-
-
-    } catch (err) {
-        console.log(err);
-        res.send({
-            status: 500,
-            message: "server code is failed",
-            err,
-        })
-    }
-}
-
-
-
 
 async function login(req, res, next) {
 
     try {
+        const { userEmail, userPassword } = req.body;
 
-        const { loginEmail, loginPass } = req.body;
-        const user = await Schema.find({ userEmail: loginEmail, userPassword: loginPass })
-        // let isFound = false;
-        console.log(user);
+        const user = await userSchema.findOne({ userEmail, userPassword });
+        console.log(user, 'line number 74');
 
-        res.json({ message: "Login successful", user: validUser });
+        if (user) {
+            return res.send({
+                status: 200,
+                message: "Login Successfuly",
+            })
+        }
 
-
-
-        // const validUser = user.find(function (user) {
-        //     return user.userEmail === loginEmail && user.userPassword === loginPass;
-        //   });
     }
     catch (err) {
-        return res.send({
+        res.send({
             message: 'user not found',
             err,
             status: 404,
         })
     }
-}
+};
 
 
-module.exports = { auth, signup, login, userDetails };
+module.exports = { auth, signup, login };

@@ -306,18 +306,18 @@ function submit() {
         return;
     }
 
-    let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];
+    // let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];
 
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    blog_obj.push({
-        title: title,
-        author: author,
-        description: description,
-        email: currentUser.validUser.email
-    });
+    // blog_obj.push({
+    //     title: title,
+    //     author: author,
+    //     description: description,
+    //     email: currentUser.validUser.email
+    // });
 
-    localStorage.setItem('User value', JSON.stringify(blog_obj));
+    // localStorage.setItem('User value', JSON.stringify(blog_obj));
     window.location.href = 'home.html';
 }
 
