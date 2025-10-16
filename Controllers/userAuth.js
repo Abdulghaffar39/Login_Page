@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { userSchema } = require('../Schema/dbschema')
 
 
-mongoose.connect("mongodb+srv://Abdulghaffar:ruBadxNt6ukkEZWY@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://Abdulghaffar:KNnl2kd0lLtyh41S@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
 
     useNewUrlParser: true,
     useUnifiedTopology: true,
