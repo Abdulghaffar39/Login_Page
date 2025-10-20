@@ -12,7 +12,7 @@ async function signup() {
         let userPassword = document.getElementById('password').value;
 
         const res = axios.post('http://localhost:3000/api/signup', {
-            
+
             userName,
             userAge,
             userEmail,
@@ -97,11 +97,18 @@ async function login() {
             loginEmail,
             loginPass
         })
+        // console.log(loginEmail + user + user.userEmail);
+        
 
-        
-        console.log(res);
-        window.location.href = 'home.html';
-        
+        // if (loginEmail === user.userEmail && loginPass === user.userPassword) {
+
+        //     console.log(res);
+            window.location.href = 'home.html';
+        // }else{
+
+        //     alert('Email or Password invalid!')
+        // }
+
 
 
         // if (getdata[i].email === signin_email && getdata[i].password === signin_password) {
@@ -110,10 +117,10 @@ async function login() {
         //     window.localStorage.setItem('currentUser', JSON.stringify({ validUser: getdata[i] }))
         //     isFound = true;
         // }
-        
+
         // .then((res) => {
-            
-            // }
+
+        // }
 
     } catch (err) {
 

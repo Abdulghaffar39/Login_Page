@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const hashy = require('hashy');
 const { userSchema } = require('../Schema/dbschema')
 
 
-mongoose.connect("mongodb+srv://Abdulghaffar:KNnl2kd0lLtyh41S@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://Abdulghaffar:XgLdPoOjzhfYddDZ@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
 
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -30,7 +31,7 @@ async function signup(req, res, next) {
         const { userName, userAge, userEmail, userPassword } = req.body;
 
         const Users = await userSchema.findOne({ userEmail })
-        console.log(Users, 'line number 41');
+        console.log(Users, 'line number34');
 
         if (Users) {
             return res.send({
@@ -40,18 +41,24 @@ async function signup(req, res, next) {
         }
 
 
-        const newUser = new userSchema({ userName, userAge, userEmail, userPassword });
-        newUser.save();
+        hashy.hash(userPassword, function (error, hash) {
 
-        res.send({
-            status: 200,
-            newUser,
-            message: "user has been created successfully"
+            if (error) {
+                return console.log(error);
+            }
+
+            const newUser = new userSchema({ userName, userAge, userEmail, userPassword: hash });
+            newUser.save();
+            res.send({
+                status: 200,
+                newUser,
+                message: "user has been created successfully"
+            });
+
         });
 
-
-
     } catch (err) {
+
         console.log(err);
 
         res.send({
@@ -70,14 +77,29 @@ async function login(req, res, next) {
         const { userEmail, userPassword } = req.body;
 
         const user = await userSchema.findOne({ userEmail, userPassword });
-        console.log(user, 'line number 74');
+        console.log(user, userSchema, 'line number 80');
 
-        if (user) {
-            return res.send({
-                status: 200,
-                message: "Login Successfuly",
-            })
-        }
+        // return res.send({
+        //     loginUser,
+        //     status: 200,
+        //     message: "user successfully login!!!",
+        // })
+
+        hashy.verify(userPassword, user.userPassword, function (error, success) {
+            if (error) {
+                return console.error(err);
+            }
+
+            if (success) {
+                return res.send({
+                    status: 200,
+                    message: "user successfully login!!!",
+                })
+            } else {
+                console.warn("invalid password!");
+            }
+        });
+
 
     }
     catch (err) {
