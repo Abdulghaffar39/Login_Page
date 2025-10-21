@@ -10,7 +10,7 @@ mongoose.connect("mongodb+srv://Abdulghaffar:XgLdPoOjzhfYddDZ@cluster0.d1n4lpf.m
 
 }).then(() => {
 
-    console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB signup/login');
 
 }).catch((err) => {
 

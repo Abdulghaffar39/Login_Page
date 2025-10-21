@@ -161,6 +161,57 @@ async function login() {
 }
 
 
+async function submit() {
+
+    try {
+
+
+        let title = document.getElementById('title').value;
+        let author = document.getElementById('author').value;
+        let description = document.getElementById('description').value;
+
+        if (title === '' || author === '' || description === '') {
+            alert('Please enter value');
+            return;
+        };
+
+        const res = await axios.post('http://localhost:3000/api/blog', {
+
+            title,
+            author,
+            description,
+        })
+
+        const data = res.data;
+        console.log(data);
+
+        if (data.status === 200) {
+
+            alert(data.message);
+            window.location.href = "home.html"
+        }
+
+        // let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];
+
+        // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        // blog_obj.push({
+        //     title: title,
+        //     author: author,
+        //     description: description,
+        //     email: currentUser.validUser.email
+        // });
+
+        // localStorage.setItem('User value', JSON.stringify(blog_obj));
+        // window.location.href = 'home.html';
+
+    }
+    catch (err) {
+        console.error(err);
+        alert('Server or network error, please try again later.');
+    }
+}
+
 
 // if (signin_email == '' && signin_password == '') {
 
@@ -333,32 +384,6 @@ function Details() {
 
 }
 
-
-function submit() {
-
-    let title = document.getElementById('title').value;
-    let author = document.getElementById('author').value;
-    let description = document.getElementById('description').value;
-
-    if (title === '' || author === '' || description === '') {
-        alert('Please enter value');
-        return;
-    }
-
-    // let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];
-
-    // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-    // blog_obj.push({
-    //     title: title,
-    //     author: author,
-    //     description: description,
-    //     email: currentUser.validUser.email
-    // });
-
-    // localStorage.setItem('User value', JSON.stringify(blog_obj));
-    window.location.href = 'home.html';
-}
 
 
 
