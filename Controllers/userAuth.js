@@ -76,31 +76,42 @@ async function login(req, res, next) {
     try {
         const { userEmail, userPassword } = req.body;
 
-        const user = await userSchema.findOne({ userEmail, userPassword });
-        console.log(user, userSchema, 'line number 80');
+        const user = await userSchema.findOne({ userEmail });
+        console.log(user, 'line number 80');
 
-        // return res.send({
-        //     loginUser,
-        //     status: 200,
-        //     message: "user successfully login!!!",
-        // })
+        if (!user) {
+            return res.send({
+                status: 404,
+                message: "User not found"
+            });
+        }
 
         hashy.verify(userPassword, user.userPassword, function (error, success) {
             if (error) {
-                return console.error(err);
+                return console.error(error);
             }
 
             if (success) {
+
                 return res.send({
                     status: 200,
                     message: "user successfully login!!!",
+
+                    validUser: {
+                        name: user.userName,
+                        age: user.userAge,
+                        email: user.userEmail,
+                    },
                 })
+
             } else {
-                console.warn("invalid password!");
+
+                return res.send({
+                    status: 401,
+                    message: "Incorrect password!",
+                });
             }
         });
-
-
     }
     catch (err) {
         res.send({

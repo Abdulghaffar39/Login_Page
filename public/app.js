@@ -11,77 +11,105 @@ async function signup() {
         let userEmail = document.getElementById('email').value;
         let userPassword = document.getElementById('password').value;
 
-        const res = axios.post('http://localhost:3000/api/signup', {
+
+        if (!userName || !userAge || !userEmail || !userPassword) {
+
+            alert('Please fill in all fields!');
+            return;
+        }
+
+        if (userEmail.indexOf('@gmail.com') === -1) {
+
+            alert('Invalid Email!');
+            return;
+        }
+
+
+        const res = await axios.post('http://localhost:3000/api/signup', {
 
             userName,
             userAge,
             userEmail,
             userPassword
         })
-        window.location.href = 'signup.html';
+
+
+        const data = res.data;
         console.log(res);
 
-        // .then((res) => {
 
-        // }
+        if (data.status === 200) {
+
+            alert(data.message);
+            window.location.href = 'signup.html';
+
+        } else if (data.status === 505) {
+
+            alert('Uaser already exists ' + data.message);
+
+        } else {
+
+            alert('Please fill correctly ' + data.message);
+        }
 
     } catch (err) {
-
-        console.log(err);
-
+        console.error(err);
+        alert('Server or network error, please try again later.');
     }
+}
+
+// function localStorage(){
+
+
+//     // if (userName == '' || userAge == '' || userEmail == '' || userPassword == '') {
+//     //     alert('Please fill page');
+//     //     return
+//     // }
+
+//     // if (userEmail.indexOf('@gmail.com') === -1) {
+//     //     alert('Please enter correct Gmail address!');
+//     //     return;
+//     // }
+
+//     // let obj = JSON.parse(window.localStorage.getItem('data')) || [];
 
 
 
-    // if (userName == '' || userAge == '' || userEmail == '' || userPassword == '') {
-    //     alert('Please fill page');
-    //     return
-    // }
+//     // let isFound = false;
 
-    // if (userEmail.indexOf('@gmail.com') === -1) {
-    //     alert('Please enter correct Gmail address!');
-    //     return;
-    // }
-
-    // let obj = JSON.parse(window.localStorage.getItem('data')) || [];
+//     // for (let i = 0; i < obj.length; i++) {
 
 
+//     //     if (obj[i].userEmail === userEmail) {
 
-    // let isFound = false;
+//     //         alert('This Email Account is already exists!');
 
-    // for (let i = 0; i < obj.length; i++) {
-
-
-    //     if (obj[i].userEmail === userEmail) {
-
-    //         alert('This Email Account is already exists!');
-
-    //         isFound = true;
-    //         return;
-    //     }
+//     //         isFound = true;
+//     //         return;
+//     //     }
 
 
-    // }
+//     // }
 
-    // if (!isFound) {
+//     // if (!isFound) {
 
-    //     alert('Account created successfuly');
+//     //     alert('Account created successfuly');
 
-    // }
-
-
-    // obj.push({
-    //     userName,
-    //     userAge,
-    //     userEmail,
-    //     userPassword,
-    // });
+//     // }
 
 
-    // window.localStorage.setItem('data', JSON.stringify(obj));
+//     // obj.push({
+//     //     userName,
+//     //     userAge,
+//     //     userEmail,
+//     //     userPassword,
+//     // });
 
-};
 
+//     // window.localStorage.setItem('data', JSON.stringify(obj));
+
+
+// }
 
 async function login() {
 
@@ -91,43 +119,47 @@ async function login() {
         let loginEmail = document.getElementById('signin_email').value;
         let loginPass = document.getElementById('signin_password').value;
 
+        if (!loginEmail || !loginPass) {
+            alert('Please enter both email and password!');
+            return;
+        }
 
-        const res = axios.post('http://localhost:3000/api/login', {
+        if (loginEmail.indexOf('@gmail.com') === -1) {
 
-            loginEmail,
-            loginPass
+            alert('Invalid Email!');
+            return;
+        }
+
+        const res = await axios.post('http://localhost:3000/api/login', {
+
+            userEmail: loginEmail,
+            userPassword: loginPass
         })
-        // console.log(loginEmail + user + user.userEmail);
-        
 
-        // if (loginEmail === user.userEmail && loginPass === user.userPassword) {
 
-        //     console.log(res);
+        const data = res.data;
+        console.log(data);
+
+        if (data.status === 200) {
+            alert(data.message);
             window.location.href = 'home.html';
-        // }else{
-
-        //     alert('Email or Password invalid!')
-        // }
-
-
-
-        // if (getdata[i].email === signin_email && getdata[i].password === signin_password) {
-
-        //     alert('Successfuly');
-        //     window.localStorage.setItem('currentUser', JSON.stringify({ validUser: getdata[i] }))
-        //     isFound = true;
-        // }
-
-        // .then((res) => {
-
-        // }
+        }
+        else if (data.status === 401) {
+            alert('Incorrect password!');
+        }
+        else if (data.status === 404) {
+            alert('Email not found!');
+        }
+        else {
+            alert(data.message);
+        }
 
     } catch (err) {
-
-        console.log(err);
+        console.error(err);
+        alert('⚠️ Server error or connection issue.');
     }
-
 }
+
 
 
 // if (signin_email == '' && signin_password == '') {
