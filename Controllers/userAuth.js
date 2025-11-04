@@ -55,7 +55,7 @@ async function signup(req, res, next) {
                 message: "user has been created successfully",
                 // user: { _id: newUser._id, name: newUser.name, email: newUser.email },
             });
-            console.log(user);
+            // console.log(user);
             
 
         });

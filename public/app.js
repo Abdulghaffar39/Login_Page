@@ -166,31 +166,27 @@ async function submit() {
     try {
 
 
-        let title = document.getElementById('title').value;
-        let author = document.getElementById('author').value;
-        let description = document.getElementById('description').value;
+        let title = document.getElementById('title').value.trim();
+        let author = document.getElementById('author').value.trim();
+        let description = document.getElementById('description').value.trim();
 
         if (title === '' || author === '' || description === '') {
-            alert('Please enter value');
+            alert('Please enter all value');
             return;
         };
 
-        const res = await axios.post('http://localhost:3000/api/blog', {
+        await axios.post('http://localhost:3000/api/blog/blog', { title, author, description });
 
-            title,
-            author,
-            description,
-        })
 
-        const data = res.data;
+        alert('Blog added successfully!');
+        window.location.href = 'home.html';
+        console.log(title);
 
-        // console.log(data.object.title);
+        // if (data.status === 200) {
 
-        if (data.status === 200) {
-
-            alert(data.message);
-            // window.location.href = "home.html";
-        }
+        //     alert(data.message);
+        //     // window.location.href = "home.html";
+        // }
 
         // let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];
 
@@ -204,12 +200,11 @@ async function submit() {
         // });
 
         // localStorage.setItem('User value', JSON.stringify(blog_obj));
-        // window.location.href = 'home.html';
 
     }
     catch (err) {
         console.error(err);
-        alert('Server or network error, please try again later.');
+        alert('Failed to add blog.');
     }
 }
 
@@ -241,49 +236,64 @@ async function submit() {
 // };
 
 
-function viewBlogs() {
-
-    let user = JSON.parse(localStorage.getItem('currentUser'));
-    let profile = document.getElementById('profile');
-    profile.innerHTML = user.validUser.name[0];
+async function viewBlogs() {
 
 
-    let blog = JSON.parse(localStorage.getItem('User value')) || [];
+    try {
 
-    let Container_small_box = document.getElementById('Container_small_box');
-    Container_small_box.innerHTML = '';
+        // let user = JSON.parse(localStorage.getItem('currentUser'));
+        // profile.innerHTML = data.name[0];
+        // let blog = JSON.parse(localStorage.getItem('User value')) || [];
+        // let profile = document.getElementById('profile');
+        let Container_small_box = document.getElementById('Container_small_box');
 
-    for (let i = 0; i < blog.length; i++) {
 
-        if (blog[i].email === user.validUser.email) {
+        const res = await axios.get('http://localhost:3000/api/blog', {
+
+            title,
+            author,
+            description,
+        })
+
+        const blogs = res.data;
+
+        Container_small_box.innerHTML = '';
+
+        if (!blogs.length) {
+            Container_small_box.innerHTML = "<p>No blogs found.</p>";
+            return;
+        }
+
+        console.log(blogs);
+
+
+        blogs.forEach((blog, i) => {
 
             Container_small_box.innerHTML += `<div class="small_box" id="small_box">
-
-
-            
+    
             <div class="parent_1">
-
-                <img src="./Assets/img/39daa6e9a23d95e8fcd89ac5d84fc67a.jpg" alt="image">
-
-
-                <div class="child" id="child_1">
-
-                    <h1>Title</h1>
-                    <p id="title_value">${blog[i].title}</p>
+            
+            <img src="./Assets/img/39daa6e9a23d95e8fcd89ac5d84fc67a.jpg" alt="image">
+            
+            
+            <div class="child" id="child_1">
+            
+                <h1>Title</h1>
+                    <p id="title_value">${blog.title}</p>
 
                 </div>
 
                 <div class="child" id="child_2">
 
                     <h1>Author</h1>
-                    <p id="author_value">${blog[i].author}</p>
+                    <p id="author_value">${blog.author}</p>
 
-                </div>
-
-                <div class="child_3" id="child_3">
-
+                    </div>
+                    
+                    <div class="child_3" id="child_3">
+                    
                     <h1>Description</h1>
-                    <p id="description_value">${blog[i].description}</p>
+                    <p id="description_value">${blog.description}</p>
 
                 </div>
 
@@ -291,16 +301,16 @@ function viewBlogs() {
 
             <div class="parent_2" id="parent_2">
 
-                <div onclick="delete_blog(${i})">
+                <div onclick="delete_blog('${blog._id}')">
 
-                    <div><i class="fa-solid fa-x"></i></div>
-                    <div>
-                        <p>Delete</p>
+                <div><i class="fa-solid fa-x"></i></div>
+                <div>
+                <p>Delete</p>
                     </div>
 
-                </div>
+                    </div>
 
-                <div onclick="edit_blog(${i})">
+                <div onclick="edit_blog('${blog._id}')">
 
                     <div><i class="fas fa-edit"></i></div>
                     <div>
@@ -313,10 +323,16 @@ function viewBlogs() {
             </div>
 
         </div>`;
-        }
-    }
-}
+            // if (blog[i].email === user.validUser.email) {
+            // }
+        });
 
+    } catch (err) {
+        console.error(err);
+        alert('Error fetching blogs. Please try again later.');
+    }
+
+}
 
 function delete_blog(index) {
 
@@ -330,32 +346,65 @@ function delete_blog(index) {
 }
 
 
-function edit_blog(index) {
+async function edit_blog(index) {
 
-    let blog = JSON.parse(window.localStorage.getItem('User value')) || [];
+    try {
 
-    let oldtitle = blog[index].title;
-    let oldauthor = blog[index].author;
-    let olddesc = blog[index].description;
+        // let blog = JSON.parse(window.localStorage.getItem('User value')) || [];
 
-    let newtitle = prompt('Edit your Title');
-    if (newtitle === null) return;
-    let newauthor = prompt('Edit your Author name');
-    if (newauthor === null) return;
-    let newdesc = prompt('Edit your Description');
-    if (newdesc === null) return;
+        const res = await axios.get('http://localhost:3000/api/blog');
+        const blogs = res.data;
 
 
-    blog[index].title = newtitle;
-    blog[index].author = newauthor;
-    blog[index].description = newdesc;
+        const blog_past = blogs[index]; // ek specific blog
+        if (!blog_past) {
+            alert('Blog not found');
+            return;
+        }
+
+        const newtitle = prompt('Edit your Title', blog_past.title);
+        if (newtitle === null) return;
+
+        const newauthor = prompt('Edit your Author name', blog_past.author);
+        if (newauthor === null) return;
+
+        const newdesc = prompt('Edit your Description', blog_past.description);
+        if (newdesc === null) return;
+
+        await axios.put(`http://localhost:3000/api/blog/${blog_past._id}`, {
+            title: newtitle,
+            author: newauthor,
+            description: newdesc,
+        });
+
+        alert('Blog updated successfully!');
+        viewBlogs();
+
+        // let oldtitle = blog[index].title;
+        // let oldauthor = blog[index].author;
+        // let olddesc = blog[index].description;
+
+        // let newtitle = prompt('Edit your Title');
+        // if (newtitle === null) return;
+        // let newauthor = prompt('Edit your Author name');
+        // if (newauthor === null) return;
+        // let newdesc = prompt('Edit your Description');
+        // if (newdesc === null) return;
 
 
-    window.localStorage.setItem('User value', JSON.stringify(blog));
+        // blog[index].title = newtitle;
+        // blog[index].author = newauthor;
+        // blog[index].description = newdesc;
 
-    viewBlogs()
+
+        // window.localStorage.setItem('User value', JSON.stringify(blog));
+
+        // viewBlogs()
+    } catch (err) {
+        console.error(err);
+        alert('Error updating blog.');
+    }
 }
-
 
 async function Details() {
 
@@ -372,7 +421,7 @@ async function Details() {
     })
 
 
-    
+
 
     const data = res.data;
     console.log(res);
