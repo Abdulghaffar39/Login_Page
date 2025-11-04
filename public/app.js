@@ -183,12 +183,13 @@ async function submit() {
         })
 
         const data = res.data;
+
         console.log(data);
 
         if (data.status === 200) {
 
             alert(data.message);
-            window.location.href = "home.html"
+            window.location.href = "home.html";
         }
 
         // let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];
@@ -356,12 +357,33 @@ function edit_blog(index) {
 }
 
 
-function Details() {
+async function Details() {
 
-    let user = window.localStorage.getItem('currentUser');
-    user = JSON.parse(user);
-    console.log(user);
+    // let user = window.localStorage.getItem('currentUser');
+    // user = JSON.parse(user);
+    // console.log(user);
 
+    const res = await axios.post('http://localhost:3000/api/data', {
+
+        userName,
+        userAge,
+        userEmail,
+        userPassword
+    })
+
+
+    
+
+    const data = res.data;
+    console.log(res);
+
+
+    if (data.status === 200) {
+
+        alert(data.message);
+        // window.location.href = 'signup.html';
+
+    }
 
     let profile_name = document.getElementById('profile_name');
     let home_age = document.getElementById('home_age');
@@ -373,8 +395,8 @@ function Details() {
     let home_password_2 = document.getElementById('home_password_2');
 
 
-    profile_name.innerHTML = user.validUser.name;
-    home_age.innerHTML = user.validUser.age;
+    profile_name.innerHTML = data.userName;
+    home_age.innerHTML = data.age;
     home_email.innerHTML = user.validUser.email;
     home_password.innerHTML = user.validUser.password;
 

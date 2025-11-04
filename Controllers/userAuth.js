@@ -3,7 +3,7 @@ const hashy = require('hashy');
 const { userSchema } = require('../Schema/dbschema')
 
 
-mongoose.connect("mongodb+srv://Abdulghaffar:XgLdPoOjzhfYddDZ@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://Abdulghaffar:ZNkRk8axXGQ9ZGFH@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
 
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -123,4 +123,31 @@ async function login(req, res, next) {
 };
 
 
-module.exports = { auth, signup, login };
+async function data(req, res, next) {
+
+    try {
+       
+
+        const { userName, userAge, userEmail, userPassword } = req.body
+
+        console.log(userName, userAge, userEmail, userPassword);
+        
+
+        res.send({
+            message: 'working successfuly',
+            status: 200,
+            err,
+        })
+
+    }
+    catch (err) {
+        res.send({
+            message: 'user not found',
+            err,
+            status: 404,
+        })
+    }
+};
+
+
+module.exports = { auth, signup, login, data };
