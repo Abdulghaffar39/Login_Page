@@ -184,12 +184,12 @@ async function submit() {
 
         const data = res.data;
 
-        console.log(data);
+        // console.log(data.object.title);
 
         if (data.status === 200) {
 
             alert(data.message);
-            window.location.href = "home.html";
+            // window.location.href = "home.html";
         }
 
         // let blog_obj = JSON.parse(localStorage.getItem('User value')) || [];

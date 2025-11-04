@@ -50,10 +50,13 @@ async function signup(req, res, next) {
             const newUser = new userSchema({ userName, userAge, userEmail, userPassword: hash });
             newUser.save();
             res.send({
-                status: 200,
                 newUser,
-                message: "user has been created successfully"
+                status: 200,
+                message: "user has been created successfully",
+                // user: { _id: newUser._id, name: newUser.name, email: newUser.email },
             });
+            console.log(user);
+            
 
         });
 

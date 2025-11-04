@@ -24,9 +24,9 @@ async function blog(req, res, next) {
     
     
     try {
-        const { blogTitle, blogAuthor, blogDescription } = req.body;
+        const { title, author, description, } = req.body;
         
-        const newBlog = new blogSchema({ blogTitle, blogAuthor, blogDescription });
+        const newBlog = new blogSchema({ title, author, description });
         await newBlog.save();
 
         console.log(newBlog);
