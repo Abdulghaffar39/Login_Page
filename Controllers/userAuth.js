@@ -3,7 +3,7 @@ const hashy = require('hashy');
 const { userSchema } = require('../Schema/dbschema')
 
 
-mongoose.connect("mongodb+srv://Abdulghaffar:ZNkRk8axXGQ9ZGFH@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://Abdulghaffar:NPMFeGaJ2FrDE40s@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
 
     useNewUrlParser: true,
     useUnifiedTopology: true,

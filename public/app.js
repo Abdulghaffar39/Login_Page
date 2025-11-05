@@ -1,5 +1,7 @@
 // const axios = 'axios/dist/browser/axios.cjs';
 
+const { param } = require("../Router/route");
+
 
 async function signup() {
 
@@ -166,16 +168,21 @@ async function submit() {
     try {
 
 
-        let title = document.getElementById('title').value.trim();
-        let author = document.getElementById('author').value.trim();
-        let description = document.getElementById('description').value.trim();
+        let title = document.getElementById('title').value;
+        let author = document.getElementById('author').value;
+        let description = document.getElementById('description').value;
 
         if (title === '' || author === '' || description === '') {
             alert('Please enter all value');
             return;
         };
 
-        await axios.post('http://localhost:3000/api/blog/blog', { title, author, description });
+        await axios.post('http://localhost:3000/api/postBlog', {
+
+            title,
+            author,
+            description
+        });
 
 
         alert('Blog added successfully!');
@@ -203,7 +210,7 @@ async function submit() {
 
     }
     catch (err) {
-        console.error(err);
+
         alert('Failed to add blog.');
     }
 }
@@ -241,35 +248,34 @@ async function viewBlogs() {
 
     try {
 
-        // let user = JSON.parse(localStorage.getItem('currentUser'));
-        // profile.innerHTML = data.name[0];
-        // let blog = JSON.parse(localStorage.getItem('User value')) || [];
-        // let profile = document.getElementById('profile');
         let Container_small_box = document.getElementById('Container_small_box');
 
+        // axios.get('http://localhost:3000/api/getBlog', {
 
-        const res = await axios.get('http://localhost:3000/api/blog', {
+        //     title,
+        //     author,
+        //     description,
+        // })
 
-            title,
-            author,
-            description,
-        })
+
+        await axios.get('http://localhost:3000/api/getBlog')
 
         const blogs = res.data;
 
         Container_small_box.innerHTML = '';
 
-        if (!blogs.length) {
-            Container_small_box.innerHTML = "<p>No blogs found.</p>";
-            return;
-        }
+        // if (!blogs.object) {
+        //     Container_small_box.innerHTML = "<p>No blogs found.</p>";
+        //     return;
+        // }
 
         console.log(blogs);
 
+        if (blogs) {
 
-        blogs.forEach((blog, i) => {
+            for (let i = 0; i < blogs.length; i++) {
 
-            Container_small_box.innerHTML += `<div class="small_box" id="small_box">
+                Container_small_box.innerHTML += `<div class="small_box" id="small_box">
     
             <div class="parent_1">
             
@@ -279,21 +285,21 @@ async function viewBlogs() {
             <div class="child" id="child_1">
             
                 <h1>Title</h1>
-                    <p id="title_value">${blog.title}</p>
+                    <p id="title_value">${blogs.title}</p>
 
                 </div>
 
                 <div class="child" id="child_2">
 
                     <h1>Author</h1>
-                    <p id="author_value">${blog.author}</p>
+                    <p id="author_value">${blogs.author}</p>
 
                     </div>
                     
                     <div class="child_3" id="child_3">
                     
                     <h1>Description</h1>
-                    <p id="description_value">${blog.description}</p>
+                    <p id="description_value">${blogs.description}</p>
 
                 </div>
 
@@ -301,7 +307,7 @@ async function viewBlogs() {
 
             <div class="parent_2" id="parent_2">
 
-                <div onclick="delete_blog('${blog._id}')">
+                <div onclick="delete_blog('')">
 
                 <div><i class="fa-solid fa-x"></i></div>
                 <div>
@@ -310,7 +316,7 @@ async function viewBlogs() {
 
                     </div>
 
-                <div onclick="edit_blog('${blog._id}')">
+                <div onclick="edit_blog('')">
 
                     <div><i class="fas fa-edit"></i></div>
                     <div>
@@ -323,11 +329,13 @@ async function viewBlogs() {
             </div>
 
         </div>`;
-            // if (blog[i].email === user.validUser.email) {
-            // }
-        });
+            }
+
+        }
+
 
     } catch (err) {
+
         console.error(err);
         alert('Error fetching blogs. Please try again later.');
     }
@@ -346,7 +354,7 @@ function delete_blog(index) {
 }
 
 
-async function edit_blog(index) {
+async function edit_blog() {
 
     try {
 

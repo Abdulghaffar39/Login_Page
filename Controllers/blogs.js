@@ -1,116 +1,64 @@
-// const mongoose = require('mongoose');
-const { blogSchema } = require('../Schema/dbschema');
+const { blogSchema } = require('../Schema/blogSchema');
 
-
-// mongoose.connect("mongodb+srv://Abdulghaffar:XgLdPoOjzhfYddDZ@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-
-// }).then(() => {
-
-//     console.log('Connected to MongoDB blog');
-
-// }).catch((err) => {
-
-//     console.log('Error connecting to MongoDB:', err);
-
-// })
-
-
-
-async function createBlog(req, res, next) {
-
-
+async function postBlog(req, res, next) {
 
     try {
-        const { title, author, description, } = req.body;
+
+        const { title, author, description } = req.body;
+
+        console.log('POST:', title, author, description);
+
         const newBlog = new blogSchema({ title, author, description });
         await newBlog.save();
 
         console.log(newBlog);
 
-        res.status(201).send({
-            status: 201,
+        res.send({
+
+            status: 200,
             message: 'Blog created successfully',
             blog: newBlog
+
         });
 
 
-    } catch (err) {
-        console.error(err);
+    }
+    catch (err) {
+
         res.status(500).send({
             message: 'Error creating blog',
             error: err.message
         });
+
     }
 }
 
+async function getBlog(req, res, next) {
 
-// ✅ READ (Get All Blogs)
-async function getAllBlogs(req, res) {
     try {
-        const blogs = await blogSchema.find();
-        res.status(200).send(blogs);
-    } catch (err) {
+
+        const { title, author, description } = req.query;
+
+        console.log('GET:', title, author, description);
+
+        return res.json({
+            method: req.method,
+            title,
+            author,
+            description,
+        });
+
+    }
+    catch (err) {
+
         res.status(500).send({
-            message: 'Error fetching blogs',
+            message: 'Error creating blog',
             error: err.message
         });
+
     }
 }
 
-// ✅ UPDATE Blog
-async function updateBlog(req, res) {
-    try {
-        const { id } = req.params;
-        const { title, author, description } = req.body;
 
-        const updatedBlog = await blogSchema.findByIdAndUpdate(
-            id,
-            { title, author, description },
-            { new: true }
-        );
 
-        if (!updatedBlog) {
-            return res.status(404).send({ message: 'Blog not found' });
-        }
-
-        res.status(200).send({
-            message: 'Blog updated successfully',
-            blog: updatedBlog
-        });
-    } catch (err) {
-        res.status(500).send({
-            message: 'Error updating blog',
-            error: err.message
-        });
-    }
-}
-
-// ✅ DELETE Blog
-async function deleteBlog(req, res) {
-    try {
-        const { id } = req.params;
-
-        const deleted = await blogSchema.findByIdAndDelete(id);
-        if (!deleted) {
-            return res.status(404).send({ message: 'Blog not found' });
-        }
-
-        res.status(200).send({ message: 'Blog deleted successfully' });
-    } catch (err) {
-        res.status(500).send({
-            message: 'Error deleting blog',
-            error: err.message
-        });
-    }
-}
-
-module.exports = {
-    createBlog,
-    getAllBlogs,
-    updateBlog,
-    deleteBlog
-};
-
+module.exports = { postBlog, getBlog }

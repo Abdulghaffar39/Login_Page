@@ -4,7 +4,7 @@ const cors = require('cors');
 
 
 const router = require('./Router/route')
-const blogRouter = require('./Router/blogRouter')
+const routeBlog = require('./Router/blogRouter')
 
 const PORT = 3000;
 const app = express();
@@ -16,7 +16,7 @@ app.use(cors());
 
 
 app.use('/api', router);
-app.use('/api', blogRouter);
+app.use('/api', routeBlog);
 
 
 
