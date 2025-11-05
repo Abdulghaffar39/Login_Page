@@ -258,9 +258,10 @@ async function viewBlogs() {
         // })
 
 
-        await axios.get('http://localhost:3000/api/getBlog')
+        const res = await axios.get('http://localhost:3000/api/getBlog');
+        const blogs = res.data.blogs || [];
 
-        const blogs = res.data;
+        // const blogs = res.data;
 
         Container_small_box.innerHTML = '';
 

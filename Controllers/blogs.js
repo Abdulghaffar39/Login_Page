@@ -37,16 +37,19 @@ async function getBlog(req, res, next) {
 
     try {
 
-        const { title, author, description } = req.query;
+        // const { title, author, description } = req.body;
+        // const blogs = await blogSchema.find().sort({ createdAt: -1 });
+        
+        const blogs = await userSchema.find({ title, author, description });
+        console.log(blogs, 'line number 44');
 
-        console.log('GET:', title, author, description);
+        return res.send({
 
-        return res.json({
-            method: req.method,
-            title,
-            author,
-            description,
-        });
+            status: 200,
+            success: true,
+            blogs
+
+        })
 
     }
     catch (err) {
