@@ -53,9 +53,7 @@ async function signup(req, res, next) {
                 newUser,
                 status: 200,
                 message: "user has been created successfully",
-                // user: { _id: newUser._id, name: newUser.name, email: newUser.email },
             });
-            // console.log(user);
             
 
         });
@@ -129,23 +127,22 @@ async function login(req, res, next) {
 async function data(req, res, next) {
 
     try {
-       
-
-        const { userName, userAge, userEmail, userPassword } = req.body
-
-        console.log(userName, userAge, userEmail, userPassword);
         
+        const userData = await userSchema.find().sort({createdAt: -1});
+        
+        console.log(userData, 'line number 133' );
+        
+        res.json({
 
-        res.send({
-            message: 'working successfuly',
             status: 200,
-            err,
+            userData,
+            message: 'working successfuly',
         })
 
     }
     catch (err) {
         res.send({
-            message: 'user not found',
+            message: 'userData not found',
             err,
             status: 404,
         })
@@ -153,4 +150,4 @@ async function data(req, res, next) {
 };
 
 
-module.exports = { auth, signup, login, data };
+module.exports = { signup, login, data };

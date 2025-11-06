@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('/postBlog', postBlog);
 router.get('/getBlog', getBlog);
+// router.post('/updateBlog', updateBlog);
 
 module.exports = router;

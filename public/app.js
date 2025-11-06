@@ -248,20 +248,33 @@ async function viewBlogs() {
 
     try {
 
+        
+        let profile = document.getElementById('profile');
+        const response = await axios.get('http://localhost:3000/api/data');
+        const user = response.data.userData || [];
+        console.log(user);
+        
+        
+        
+        if(user){
+            
+            for (let j = 0; j < user.length; j++) {
+                
+                profile.innerHTML = user[j].userName[0];
+                
+                
+            }
+
+        }
+
+
         let Container_small_box = document.getElementById('Container_small_box');
 
-        // axios.get('http://localhost:3000/api/getBlog', {
-
-        //     title,
-        //     author,
-        //     description,
-        // })
-
+        // profile = userData.username;
 
         const res = await axios.get('http://localhost:3000/api/getBlog');
         const blogs = res.data.blogs || [];
 
-        // const blogs = res.data;
 
         Container_small_box.innerHTML = '';
 
@@ -280,27 +293,24 @@ async function viewBlogs() {
     
             <div class="parent_1">
             
-            <img src="./Assets/img/39daa6e9a23d95e8fcd89ac5d84fc67a.jpg" alt="image">
-            
-            
             <div class="child" id="child_1">
             
                 <h1>Title</h1>
-                    <p id="title_value">${blogs.title}</p>
+                    <p id="title_value">${blogs[i].title}</p>
 
                 </div>
 
                 <div class="child" id="child_2">
 
                     <h1>Author</h1>
-                    <p id="author_value">${blogs.author}</p>
+                    <p id="author_value">${blogs[i].author}</p>
 
                     </div>
                     
                     <div class="child_3" id="child_3">
                     
                     <h1>Description</h1>
-                    <p id="description_value">${blogs.description}</p>
+                    <p id="description_value">${blogs[i].description}</p>
 
                 </div>
 
@@ -361,7 +371,7 @@ async function edit_blog() {
 
         // let blog = JSON.parse(window.localStorage.getItem('User value')) || [];
 
-        const res = await axios.get('http://localhost:3000/api/blog');
+        // const res = await axios.get('http://localhost:3000/api/blog');
         const blogs = res.data;
 
 
@@ -380,11 +390,11 @@ async function edit_blog() {
         const newdesc = prompt('Edit your Description', blog_past.description);
         if (newdesc === null) return;
 
-        await axios.put(`http://localhost:3000/api/blog/${blog_past._id}`, {
-            title: newtitle,
-            author: newauthor,
-            description: newdesc,
-        });
+        // await axios.put(`http://localhost:3000/api/blog/${blog_past._id}`, {
+        //     title: newtitle,
+        //     author: newauthor,
+        //     description: newdesc,
+        // });
 
         alert('Blog updated successfully!');
         viewBlogs();
@@ -415,33 +425,14 @@ async function edit_blog() {
     }
 }
 
+
+
 async function Details() {
 
     // let user = window.localStorage.getItem('currentUser');
     // user = JSON.parse(user);
     // console.log(user);
 
-    const res = await axios.post('http://localhost:3000/api/data', {
-
-        userName,
-        userAge,
-        userEmail,
-        userPassword
-    })
-
-
-
-
-    const data = res.data;
-    console.log(res);
-
-
-    if (data.status === 200) {
-
-        alert(data.message);
-        // window.location.href = 'signup.html';
-
-    }
 
     let profile_name = document.getElementById('profile_name');
     let home_age = document.getElementById('home_age');
@@ -453,16 +444,37 @@ async function Details() {
     let home_password_2 = document.getElementById('home_password_2');
 
 
-    profile_name.innerHTML = data.userName;
-    home_age.innerHTML = data.age;
-    home_email.innerHTML = user.validUser.email;
-    home_password.innerHTML = user.validUser.password;
+    const res = await axios.get('http://localhost:3000/api/data');
+    const user = res.data.userData || [];
 
-    home_age_2.innerHTML = user.validUser.age;
-    home_email_2.innerHTML = user.validUser.email;
-    home_password_2.innerHTML = user.validUser.password;
+    if (user) {
+
+        for (let i = 0; i < user.length; i++) {
+
+
+            profile_name.innerHTML = user[i].userName;
+            home_age.innerHTML = user[i].userAge;
+            home_email.innerHTML = user[i].userEmail;
+            home_password.innerHTML = user[i].userPassword;
+
+            home_age_2.innerHTML = user[i].age;
+            home_email_2.innerHTML = user[i].email;
+            home_password_2.innerHTML = user[i].password;
+
+        }
+
+
+        if (data.status === 200) {
+
+            alert(data.message);
+            // window.location.href = 'signup.html';
+
+        }
+    }
+
 
 }
+
 
 
 

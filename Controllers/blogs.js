@@ -37,11 +37,9 @@ async function getBlog(req, res, next) {
 
     try {
 
-        // const { title, author, description } = req.body;
-        // const blogs = await blogSchema.find().sort({ createdAt: -1 });
-        
-        const blogs = await userSchema.find({ title, author, description });
-        console.log(blogs, 'line number 44');
+        const blogs = await blogSchema.find().sort({ createdAt: -1 });
+
+        // console.log(blogs, 'line number 44');
 
         return res.send({
 
