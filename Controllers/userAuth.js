@@ -83,11 +83,17 @@ async function login(req, res, next) {
                     userPassword: user.userPassword,
 
                 },
-                    process.env.JWTSECRETKEY
-
+                    process.env.JWTSECRETKEY,
+                    { expiresIn: "1d" }
                 );
 
                 console.log(token);
+
+                res.cookie("jwtToken", token, {
+                    httpOnly: true,
+                    maxAge: "1d", // 1 day in milliseconds
+                });
+
                 res.send({
                     status: 200,
                     message: "user login successfully",

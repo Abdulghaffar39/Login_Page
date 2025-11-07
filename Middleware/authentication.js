@@ -13,7 +13,7 @@ const authrization = async (req, res, next) => {
 
     if (!header) {
 
-        res.send({
+        return res.send({
 
             status: 401,
             message: "header are invalid",

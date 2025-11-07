@@ -132,11 +132,21 @@ async function login() {
             return;
         }
 
+        const allCookies = document.cookie;
         const res = await axios.post('http://localhost:3000/api/login', {
 
-            userEmail: loginEmail,
-            userPassword: loginPass
-        })
+            headers: {
+                'Authorization': `Bearer ${token}`, // For Bearer token authentication
+                'Content-Type': 'application/json' // Or 'application/x-www-form-urlencoded', etc.
+
+            }
+        },
+            {
+
+                userEmail: loginEmail,
+                userPassword: loginPass
+            }
+        )
 
 
         const data = res.data;
@@ -248,21 +258,21 @@ async function viewBlogs() {
 
     try {
 
-        
+
         let profile = document.getElementById('profile');
         const response = await axios.get('http://localhost:3000/api/data');
         const user = response.data.userData || [];
         console.log(user);
-        
-        
-        
-        if(user){
-            
+
+
+
+        if (user) {
+
             for (let j = 0; j < user.length; j++) {
-                
+
                 profile.innerHTML = user[j].userName[0];
-                
-                
+
+
             }
 
         }

@@ -1,13 +1,13 @@
 const express = require('express');
-const { signup, login, data } = require('../Controllers/userAuth')
 const authrization  = require('../Middleware/authentication');
+const { signup, login, data } = require('../Controllers/userAuth')
 
 let router = express.Router()
 
 
 router.post('/signup', signup)
-router.post('/login', authrization , login)
-router.get('/data', data)
+router.post('/login' , login)
+router.get('/data', authrization, data)
 
 
 module.exports = router;
