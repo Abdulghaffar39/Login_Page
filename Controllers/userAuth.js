@@ -1,32 +1,14 @@
-const mongoose = require('mongoose');
-const hashy = require('hashy');
+const jwt = require("jsonwebtoken")
 const { userSchema } = require('../Schema/dbschema')
-
-
-mongoose.connect("mongodb+srv://Abdulghaffar:NPMFeGaJ2FrDE40s@cluster0.d1n4lpf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-
-}).then(() => {
-
-    console.log('Connected to MongoDB signup/login');
-
-}).catch((err) => {
-
-    console.log('Error connecting to MongoDB:', err);
-
-})
-
+const hashy = require('hashy');
 
 function auth(req, res, next) {
 
     res.send('Hello world!!')
 }
 
-
 // --------------------------------------------------------------------------------------
-async function signup(req, res, next) {
+async function signup(req, res) {
     try {
         const { userName, userAge, userEmail, userPassword } = req.body;
 
@@ -54,13 +36,11 @@ async function signup(req, res, next) {
                 status: 200,
                 message: "user has been created successfully",
             });
-            
+
 
         });
 
     } catch (err) {
-
-        console.log(err);
 
         res.send({
             status: 500,
@@ -88,30 +68,58 @@ async function login(req, res, next) {
         }
 
         hashy.verify(userPassword, user.userPassword, function (error, success) {
-            if (error) {
-                return console.error(error);
-            }
+
 
             if (success) {
 
-                return res.send({
+                console.log(process.env.JWTSECRETKEY, "process.env.JWTSECRETKEY");
+
+
+                let token = jwt.sign({
+
+                    userName: user.userName,
+                    userAge: user.userAge,
+                    userEmail: user.userEmail,
+                    userPassword: user.userPassword,
+
+                },
+                    process.env.JWTSECRETKEY
+
+                );
+
+                console.log(token);
+                res.send({
                     status: 200,
-                    message: "user successfully login!!!",
-
-                    validUser: {
-                        name: user.userName,
-                        age: user.userAge,
-                        email: user.userEmail,
-                    },
-                })
-
-            } else {
-
-                return res.send({
-                    status: 401,
-                    message: "Incorrect password!",
+                    message: "user login successfully",
+                    token,
                 });
             }
+
+            // if (error) {
+            //     return console.error(error);
+            // }
+
+            // if (success) {
+
+            //     return res.send({
+            //         status: 200,
+            //         message: "user successfully login!!!",
+
+            //         validUser: {
+            //             name: user.userName,
+            //             age: user.userAge,
+            //             email: user.userEmail,
+            //         },
+            //     })
+
+            // } else {
+
+            //     return res.send({
+            //         status: 401,
+            //         message: "Incorrect password!",
+            //     });
+            // }
+
         });
     }
     catch (err) {
@@ -127,24 +135,28 @@ async function login(req, res, next) {
 async function data(req, res, next) {
 
     try {
-        
-        const userData = await userSchema.find().sort({createdAt: -1});
-        
-        console.log(userData, 'line number 133' );
-        
+
+        const userData = await userSchema.find().sort({ createdAt: -1 });
+
+        // console.log(userData, 'line number 133');
+
         res.json({
 
             status: 200,
             userData,
-            message: 'working successfuly',
+            message: 'working successfuly'
+
         })
+
 
     }
     catch (err) {
+
         res.send({
-            message: 'userData not found',
+
             err,
             status: 404,
+            message: 'userData not found',
         })
     }
 };

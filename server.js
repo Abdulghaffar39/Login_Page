@@ -4,7 +4,8 @@ const cors = require('cors');
 
 
 const router = require('./Router/route')
-const routeBlog = require('./Router/blogRouter')
+const routeBlog = require('./Router/blogRouter');
+const dbCon = require('./Schema/dbconnection');
 
 const PORT = 3000;
 const app = express();
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-
+dbCon();
 app.use('/api', router);
 app.use('/api', routeBlog);
 
