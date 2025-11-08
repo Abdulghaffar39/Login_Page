@@ -24,22 +24,10 @@ async function signup() {
             return;
         }
 
-
-        const res = await axios.post('http://localhost:3000/api/signup', {
-            headers: {
-                'Authorization': `Bearer ${token}`, // For Bearer token authentication
-                'Content-Type': 'application/json' // Or 'application/x-www-form-urlencoded', etc.
-
-            }
-        },
-
-            {
-
-                userName,
-                userAge,
-                userEmail,
-                userPassword
-            })
+        const res = await axios.post('http://localhost:3000/api/signup',
+            { userName, userAge, userEmail, userPassword }, // body
+            { withCredentials: true } // cookie ke liye zaroori
+        );
 
 
         const data = res.data;
@@ -144,11 +132,11 @@ async function login() {
             {
 
                 userEmail: loginEmail,
-                userPassword: loginPass
+                userPassword: loginPass,
             }
         )
 
-        console.log(userPassword, "line num 153");
+        console.log(loginPass, "line num 153");
 
         const data = res.data;
         console.log(data);

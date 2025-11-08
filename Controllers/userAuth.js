@@ -84,17 +84,14 @@ async function login(req, res, next) {
 
                 },
                     process.env.JWTSECRETKEY,
-                    // { expiresIn: "1d" }
+                    { expiresIn: "1d" }
                 );
-
-
-                console.log(token);
 
                 res.cookie("jwtToken", token, {
                     httpOnly: true,
-                    maxAge: "1d", // 1 day in milliseconds
+                    maxAge: 24 * 60 * 60 * 1000, // 1 day
+                    sameSite: "Lax"
                 });
-
 
                 return res.send({
                     status: 200,
