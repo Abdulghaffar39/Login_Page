@@ -1,7 +1,5 @@
 // const axios = 'axios/dist/browser/axios.cjs';
 
-const { param } = require("../Router/route");
-
 
 async function signup() {
 
@@ -28,12 +26,20 @@ async function signup() {
 
 
         const res = await axios.post('http://localhost:3000/api/signup', {
+            headers: {
+                'Authorization': `Bearer ${token}`, // For Bearer token authentication
+                'Content-Type': 'application/json' // Or 'application/x-www-form-urlencoded', etc.
 
-            userName,
-            userAge,
-            userEmail,
-            userPassword
-        })
+            }
+        },
+
+            {
+
+                userName,
+                userAge,
+                userEmail,
+                userPassword
+            })
 
 
         const data = res.data;
@@ -132,15 +138,9 @@ async function login() {
             return;
         }
 
-        const allCookies = document.cookie;
-        const res = await axios.post('http://localhost:3000/api/login', {
 
-            headers: {
-                'Authorization': `Bearer ${token}`, // For Bearer token authentication
-                'Content-Type': 'application/json' // Or 'application/x-www-form-urlencoded', etc.
 
-            }
-        },
+        const res = await axios.post('http://localhost:3000/api/login',
             {
 
                 userEmail: loginEmail,
@@ -148,6 +148,7 @@ async function login() {
             }
         )
 
+        console.log(userPassword, "line num 153");
 
         const data = res.data;
         console.log(data);
@@ -167,6 +168,7 @@ async function login() {
         }
 
     } catch (err) {
+
         console.error(err);
         alert('⚠️ Server error or connection issue.');
     }

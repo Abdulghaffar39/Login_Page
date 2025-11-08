@@ -72,7 +72,7 @@ async function login(req, res, next) {
 
             if (success) {
 
-                console.log(process.env.JWTSECRETKEY, "process.env.JWTSECRETKEY");
+                // console.log(process.env.JWTSECRETKEY, "process.env.JWTSECRETKEY");
 
 
                 let token = jwt.sign({
@@ -84,8 +84,9 @@ async function login(req, res, next) {
 
                 },
                     process.env.JWTSECRETKEY,
-                    { expiresIn: "1d" }
+                    // { expiresIn: "1d" }
                 );
+
 
                 console.log(token);
 
@@ -94,42 +95,18 @@ async function login(req, res, next) {
                     maxAge: "1d", // 1 day in milliseconds
                 });
 
-                res.send({
+
+                return res.send({
                     status: 200,
                     message: "user login successfully",
                     token,
                 });
             }
 
-            // if (error) {
-            //     return console.error(error);
-            // }
-
-            // if (success) {
-
-            //     return res.send({
-            //         status: 200,
-            //         message: "user successfully login!!!",
-
-            //         validUser: {
-            //             name: user.userName,
-            //             age: user.userAge,
-            //             email: user.userEmail,
-            //         },
-            //     })
-
-            // } else {
-
-            //     return res.send({
-            //         status: 401,
-            //         message: "Incorrect password!",
-            //     });
-            // }
-
         });
     }
     catch (err) {
-        res.send({
+        return res.send({
             message: 'user not found',
             err,
             status: 404,
