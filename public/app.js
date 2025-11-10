@@ -26,7 +26,6 @@ async function signup() {
 
         const res = await axios.post('http://localhost:3000/api/signup',
             { userName, userAge, userEmail, userPassword }, // body
-            { withCredentials: true } // cookie ke liye zaroori
         );
 
 
@@ -250,7 +249,15 @@ async function viewBlogs() {
 
 
         let profile = document.getElementById('profile');
-        const response = await axios.get('http://localhost:3000/api/data');
+        const response = await axios.get('http://localhost:3000/api/data',
+
+            { withCredentials: true } // cookie ke liye zaroori
+
+        );
+
+        
+        let allCookies = document.cookie;
+        console.log(allCookies.userEmail); // Example output: "username=John Doe; session_id=abc123def456"
         const user = response.data.userData || [];
         console.log(user);
 
@@ -467,8 +474,8 @@ async function Details() {
         if (data.status === 200) {
 
             alert(data.message);
-            // window.location.href = 'signup.html';
-
+            window.location.href = 'signup.html';
+            
         }
     }
 
